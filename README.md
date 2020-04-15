@@ -33,26 +33,26 @@ Actual time needed to complete:
 Number and name of feature: #1 Data Formatting
 Estimate of time needed to complete: 1hr
 Start time: 9:17am
-Finish time: 10:33am
-Actual time needed to complete: 1hr 16min
+Finish time: 11:50am
+Actual time needed to complete: 2hr 33min
 
 Number and name of feature: #2 Locations
-Estimate of time needed to complete: 1hr 
-Start time: 10:34am
-Finish time: 11:50am
-Actual time needed to complete: 1hr 16min
+Estimate of time needed to complete: N/A
+Start time: N/A
+Finish time: N/A
+Actual time needed to complete: Completed Concurrently w/ feature #1
 
-Number and name of feature: #3 
-Estimate of time needed to complete: 
-Start time: 
-Finish time: 
-Actual time needed to complete: 
+Number and name of feature: #3 Weather
+Estimate of time needed to complete: N/A
+Start time: N/A
+Finish time: N/A
+Actual time needed to complete: Completed Concurrently w/ feature #1
 
-Number and name of feature: #4 
-Estimate of time needed to complete: 
-Start time: 
-Finish time: 
-Actual time needed to complete: 
+Number and name of feature: #4 Trails
+Estimate of time needed to complete: 1hr
+Start time: 11:59am
+Finish time: 12:59pm
+Actual time needed to complete: 1hr
 
 # Change Log
 
@@ -76,6 +76,7 @@ Version 1.0.2 - 4/14/2020 - Added ability to search for a location and return pr
 Version 1.0.3 - 4/14/2020 - Added ability to return proper weather location
 Version 1.0.4 - 4/14/2020 - Added an error catcher
 Version 1.1.0 - 4/15/2020 11:50am - Added location API integration and forecast API integration
+Version 1.1.1 - 4/15/2020 12:59am - Added Trail API inegration
 
 ## Credits and Collaborations
 
