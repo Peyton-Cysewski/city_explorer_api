@@ -15,10 +15,12 @@ app.listen(PORT,() => console.log(`Listening on port ${PORT}`));
 app.get('/location', (request, response) => {
 
 let locationData = require('./data/geo.json');
-let city = request.query.city;
-let formattedObj = new City(city, locationData);
+if (locationData) {
+  let city = request.query.city;
+  let formattedObj = new City(city, locationData);
 
-response.status(200).send(formattedObj);
+  response.status(200).send(formattedObj);
+} else {handleError(response)}
 });
 
 // Getting a location's Weather
@@ -26,14 +28,16 @@ app.get('/weather', (request, response) => {
   let empty = [];
 
   let weatherData = require('./data/darksky.json')
-  weatherData.data.forEach(item => {
-    let forecast = item.weather.description;
-    let time = new Date(item.valid_date).toDateString();
-    let formattedObj = new Weather(forecast,time); 
-    
-    empty.push(formattedObj)
-  });
-  response.status(200).send(empty);
+  if (weatherData) {
+    weatherData.data.forEach(item => {
+      let forecast = item.weather.description;
+      let time = new Date(item.valid_date).toDateString();
+      let formattedObj = new Weather(forecast,time); 
+      
+      empty.push(formattedObj)
+    });
+    response.status(200).send(empty);
+  } else {handleError(response)}
   });
 
 // Constructor Functions 
@@ -49,5 +53,14 @@ function Weather(forecast, time) {
   this.time = time;
 }
 
+// Error Handler
+function handleError(response) {
+  response.status(500).send({
+    status: 500,
+    responseText: "Sorry, something went wrong",
+  });
+}
 
-app.use('*', (request, response) => response.send('Sorry, that route does not exist.'));
+
+app.use('*', (request, response) => handleError(response));
+// app.use('*', (request, response) => response.send('Sorry, that route does not exist.'));
