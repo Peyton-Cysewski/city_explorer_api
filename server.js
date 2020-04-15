@@ -3,6 +3,7 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
+const superagent = require('superagent');
 const cors = require('cors');
 app.use(cors());
 
@@ -11,50 +12,54 @@ const PORT = process.env.PORT || 3001;
 
 app.listen(PORT,() => console.log(`Listening on port ${PORT}`));
 
-// Getting a location
+// Getting Location
 app.get('/location', (request, response) => {
 
-let locationData = require('./data/geo.json');
-if (locationData) {
-  let city = request.query.city;
-  let formattedObj = new City(city, locationData);
+  const search = request.query.city;
+  const key = process.env.LOCATIONIQ__API__KEY
+  const url = `https://us1.locationiq.com/v1/search.php?key=${key}&q=${search}&format=json`
 
-  response.status(200).send(formattedObj);
-} else {handleError(response)}
-});
+  superagent
+  .get(url)
+  .then(locResponse => {response.status(200).send(new City(search, locResponse.body[0]))})
+  .catch(handleError);
 
-// Getting a location's Weather
-app.get('/weather', (request, response) => {
-  let empty = [];
-
-  let weatherData = require('./data/darksky.json')
-  if (weatherData) {
-    weatherData.data.forEach(item => {
-      let forecast = item.weather.description;
-      let time = new Date(item.valid_date).toDateString();
-      let formattedObj = new Weather(forecast,time); 
-      
-      empty.push(formattedObj)
-    });
-    response.status(200).send(empty);
-  } else {handleError(response)}
   });
+
+// Getting Weather
+app.get('/weather', (request, response) => {
+
+  // console.log(request.query);
+  // const search = request.query.search_query;
+  const { latitude, longitude } = request.query;
+  const key = process.env.WEATHERBIT__API__KEY
+  const url = `https://api.weatherbit.io/v2.0/forecast/daily?lat=${latitude}&lon=${longitude}&key=${key}`
+
+  superagent
+  .get(url)
+  .then(weatherResponse => {
+    let data = weatherResponse.body.data;
+    response.status(200).send(data.map(day => new Weather(day.weather.description, day.datetime)))})
+  .catch(handleError);
+
+});
 
 // Constructor Functions 
 function City(city, locData) {
   this.search_query = city;
-  this.formatted_query = locData[0].display_name;
-  this.latitude = locData[0].lat;
-  this.longitude = locData[0].lon;
+  this.formatted_query = locData.display_name;
+  this.latitude = locData.lat;
+  this.longitude = locData.lon;
 }
 
 function Weather(forecast, time) {
   this.forecast = forecast;
-  this.time = time;
+  this.time = new Date(time).toDateString();
 }
 
 // Error Handler
-function handleError(response) {
+function handleError(err, res) {
+  console.log(err);
   response.status(500).send({
     status: 500,
     responseText: "Sorry, something went wrong",
@@ -62,5 +67,4 @@ function handleError(response) {
 }
 
 
-app.use('*', (request, response) => handleError(response));
-// app.use('*', (request, response) => response.send('Sorry, that route does not exist.'));
+app.use('*', (request, response) => response.send('Sorry, that route does not exist.'));
