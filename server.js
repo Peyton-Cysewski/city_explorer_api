@@ -1,32 +1,64 @@
 'use strict';
 
+// Dependencies
 require('dotenv').config();
 const express = require('express');
 const app = express();
 const superagent = require('superagent');
+const pg = require('pg');
 const cors = require('cors');
+const PORT = process.env.PORT || 3001;
+const dbClient = new pg.Client(process.env.DATABASE__URL);
 app.use(cors());
 
-const PORT = process.env.PORT || 3001;
-
-
+// Testing Server Connection
 app.listen(PORT,() => console.log(`Listening on port ${PORT}`));
 
-// Getting Location
+// Testing Database Connection
+dbClient.connect(err => {
+  if (err) {
+    console.error('connection error', err.stack)
+  } else {
+    console.log('connected on localhost: 5432')
+  }
+});
+
+// Getting Location Information
 app.get('/location', (request, response) => {
 
   const search = request.query.city;
   const key = process.env.LOCATIONIQ__API__KEY
   const url = `https://us1.locationiq.com/v1/search.php?key=${key}&q=${search}&format=json`
 
-  superagent
-  .get(url)
-  .then(locResponse => {response.status(200).send(new City(search, locResponse.body[0]))})
-  .catch(handleError);
+  // Database Querying
+  let SQL = 'SELECT * FROM locations WHERE search_query=$1';
+  let values = [search];
 
+  // Logic for where to grab the info
+  dbClient.query(SQL, values)
+    .then(record => {
+      if (record.rows.length > 0) {
+        console.log('Found in Database');
+        response.status(200).send(record.rows[0])
+      } else {
+        superagent.get(url)
+        .then(locResponse => {
+          let city = new City(search, locResponse.body[0]);
+          // Save to database
+          SQL = 'INSERT INTO locations (search_query, formatted_query, latitude, longitude) VALUES ($1, $2, $3, $4) RETURNING *';
+          values = [city.search_query, city.formatted_query, city.latitude, city.longitude];
+          dbClient.query(SQL, values);
+          // send response back
+          console.log('Found using API');
+          response.status(200).send(city);
+        })
+        .catch(err => {handleError(err, req, res, next)});
+      }
+    })
+    .catch(err => {handleError(err, req, res, next)});
   });
 
-// Getting Weather
+// Getting Weather Information
 app.get('/weather', (request, response) => {
 
   const { latitude, longitude } = request.query;
@@ -38,11 +70,11 @@ app.get('/weather', (request, response) => {
   .then(weatherResponse => {
     let data = weatherResponse.body.data;
     response.status(200).send(data.map(day => new Weather(day.weather.description, day.datetime)))})
-  .catch(handleError);
+  .catch(err => {handleError(err, req ,res, next)});
 
 });
 
-// Getting Trails
+// Getting Trail(s) Information
 app.get('/trails', (request, response) => {
 
   const { latitude, longitude } = request.query;
@@ -53,9 +85,8 @@ app.get('/trails', (request, response) => {
   .get(url)
   .then(trailResponse => {
     let data = trailResponse.body.trails;
-    console.log(data);
     response.status(200).send(data.map(trail => new Trail(trail)))})
-  .catch(handleError);
+  .catch(err => {handleError(err, req, res, next)});
 
 });
 
@@ -91,7 +122,7 @@ function split_conditionDate(str) {
 }
 
 // Error Handler
-function handleError(err, res) {
+function handleError(err, res, req, next) {
   console.log(err);
   response.status(500).send({
     status: 500,
@@ -99,5 +130,5 @@ function handleError(err, res) {
   });
 }
 
-
+// Catch-all error response
 app.use('*', (request, response) => response.send('Sorry, that route does not exist.'));

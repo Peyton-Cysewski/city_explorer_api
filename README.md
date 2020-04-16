@@ -54,10 +54,36 @@ Start time: 11:59am
 Finish time: 12:59pm
 Actual time needed to complete: 1hr
 
+### Lab 08
+
+Number and name of feature: #1 Database Setup
+Estimate of time needed to complete: 1hr 30min
+Start time: 9:29am
+Finish time: 10:56am
+Actual time needed to complete: 1hr 27min
+
+Number and name of feature: #2 Server
+Estimate of time needed to complete: 1hr
+Start time: 10:58am
+Finish time: 1:02pm
+Actual time needed to complete: 2hr 4min
+
+Number and name of feature: #3 
+Estimate of time needed to complete: 
+Start time: 
+Finish time: 
+Actual time needed to complete: 
+
+Number and name of feature: #4 
+Estimate of time needed to complete: 
+Start time: 
+Finish time: 
+Actual time needed to complete: 
+
 # Change Log
 
 **Author**: Peyton Cysewski
-**Version**: 1.1.1 (increment the patch/fix version number if you make more commits past your first submission)
+**Version**: 1.2.1 (increment the patch/fix version number if you make more commits past your first submission)
 
 ## Overview
 <!-- Provide a high level overview of what this application is and why you are building it, beyond the fact that it's an assignment for this class. (i.e. What's your problem domain?) -->
@@ -76,11 +102,13 @@ Version 1.0.2 - 4/14/2020 - Added ability to search for a location and return pr
 Version 1.0.3 - 4/14/2020 - Added ability to return proper weather location
 Version 1.0.4 - 4/14/2020 - Added an error catcher
 Version 1.1.0 - 4/15/2020 11:50am - Added location API integration and forecast API integration
-Version 1.1.1 - 4/15/2020 12:59am - Added Trail API inegration
+Version 1.1.1 - 4/15/2020 12:59pmm - Added Trail API inegration
+Version 1.2.0 - 4/16/2020 10:56am - Connected to a local PostgreSQL server with locations table
+Version 1.2.1 - 4/16/2020 1:02pm - Database can how cache location data for new searches and use the cache for repeated searches
 
 ## Credits and Collaborations
 
 - Kenneth Harman (Lab 06 - 4/14/2020)
 - Chance Harmon (Lab 06 - 4/14/2020)
-- Joe Pennock (Lab 07 - 4/15/2020)
-- Olga Charnysh (Lab 07 - 4/15/2020)
+- Joe Pennock (Lab 07 + 08 - 4/15/2020)
+- Olga Charnysh (Lab 07 + 08 - 4/15/2020)
