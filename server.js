@@ -4,13 +4,22 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const superagent = require('superagent');
+const pg = require('pg');
 const cors = require('cors');
-app.use(cors());
-
 const PORT = process.env.PORT || 3001;
-
-
+app.use(cors());
 app.listen(PORT,() => console.log(`Listening on port ${PORT}`));
+
+const dbClient = new pg.Client(process.env.DATABASE__URL);
+
+dbClient.connect(err => {
+  if (err) {
+    console.error('connection error', err.stack)
+  } else {
+    console.log('connected')
+  }
+});
+
 
 // Getting Location
 app.get('/location', (request, response) => {
