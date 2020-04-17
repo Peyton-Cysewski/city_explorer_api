@@ -19,7 +19,7 @@ dbClient.connect(err => {
   if (err) {
     console.error('connection error', err.stack)
   } else {
-    console.log('connected on localhost: 5432')
+    console.log('connected to database');
   }
 });
 
@@ -52,10 +52,10 @@ app.get('/location', (request, response) => {
           console.log('Found using API');
           response.status(200).send(city);
         })
-        .catch(err => {handleError(err, req, res, next)});
+        .catch(err => {handleError(err, request, response)});
       }
     })
-    .catch(err => {handleError(err, req, res, next)});
+    .catch(err => {handleError(err, request, response)});
   });
 
 // Getting Weather Information
@@ -86,9 +86,43 @@ app.get('/trails', (request, response) => {
   .then(trailResponse => {
     let data = trailResponse.body.trails;
     response.status(200).send(data.map(trail => new Trail(trail)))})
-  .catch(err => {handleError(err, req, res, next)});
+  .catch(err => {handleError(err, request, response)});
 
 });
+
+// Getting Movie Information
+app.get('/movies', (request, response) => {
+
+  const city = request.query.search_query;
+  const key = process.env.TMBD__API__KEY;
+  const url = `https://api.themoviedb.org/3/search/movie?api_key=${key}&query=${city}`
+
+  superagent
+  .get(url)
+  .then(movieResonse => {
+    console.log(movieResonse.body.results);
+    let data = movieResonse.body.results;
+    response.status(200).send(data.map(movie => new Movie(movie)))})
+  .catch(err => {handleError(err, request, response)});
+
+});
+
+// Getting Restaurant Information
+// app.get('/yelp', (request, response) => {
+
+//   const { latitude, longitude } = request.query;
+//   const key = process.env.YELP__API__KEY;
+//   const url = `https://api.yelp.com/v3/businesses/search?lat=${latitude}&lon=${longitude}&key=${key}&term=restaurants`
+
+//   superagent
+//   .get(url)
+//   .then(movieResonse => {
+//     // console.log(movieResonse.body);
+//     let data = movieResonse.body.movies;
+//     response.status(200).send(data.map(movie => new Movie(movie)))})
+//   .catch(err => {handleError(err, request, response)});
+
+// });
 
 // Constructor Functions 
 function City(city, locData) {
@@ -115,6 +149,24 @@ function Trail(trail) {
   this.condition_date = split_conditionDate(trail.conditionDate)[0];
   this.condition_time = split_conditionDate(trail.conditionDate)[1];
 }
+
+function Movie(movie) {
+  this.title = movie.title;
+  this.overview = movie.overview;
+  this.average_votes = movie.vote_average;
+  this.total_votes = movie.vote_count;
+  this.image_url = 'https://image.tmdb.org/t/p/w300' + movie.poster_path;
+  this.popularity = movie.popularity;
+  this.released_on = movie.release_date;
+}
+
+// function Restuarant(restaurant) {
+//   this.name = ;
+//   this.image_url = ;
+//   this.price = ;
+//   this.rating = ;
+//   this.url = ;
+// }
 
 // Extra Functions
 function split_conditionDate(str) {
