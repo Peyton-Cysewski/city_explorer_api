@@ -80,6 +80,32 @@ Start time:
 Finish time: 
 Actual time needed to complete: 
 
+### Lab 09
+
+Number and name of feature: #1 Movie API
+Estimate of time needed to complete: 1hr
+Start time: 9:21am
+Finish time: 
+Actual time needed to complete: 
+
+Number and name of feature: #2 
+Estimate of time needed to complete: 
+Start time: 
+Finish time: 
+Actual time needed to complete: 
+
+Number and name of feature: #3 
+Estimate of time needed to complete: 
+Start time: 
+Finish time: 
+Actual time needed to complete: 
+
+Number and name of feature: #4 
+Estimate of time needed to complete: 
+Start time: 
+Finish time: 
+Actual time needed to complete: 
+
 # Change Log
 
 **Author**: Peyton Cysewski
