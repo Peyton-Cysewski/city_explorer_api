@@ -85,22 +85,16 @@ Actual time needed to complete:
 Number and name of feature: #1 Movie API
 Estimate of time needed to complete: 1hr
 Start time: 9:21am
-Finish time: 
-Actual time needed to complete: 
+Finish time: 10:46am
+Actual time needed to complete: 1hr 25min
 
-Number and name of feature: #2 
-Estimate of time needed to complete: 
-Start time: 
-Finish time: 
-Actual time needed to complete: 
+Number and name of feature: #2 Yelp API
+Estimate of time needed to complete: 1hr
+Start time: 10:52am
+Finish time: 11:43am
+Actual time needed to complete: 51min
 
 Number and name of feature: #3 
-Estimate of time needed to complete: 
-Start time: 
-Finish time: 
-Actual time needed to complete: 
-
-Number and name of feature: #4 
 Estimate of time needed to complete: 
 Start time: 
 Finish time: 
@@ -109,7 +103,7 @@ Actual time needed to complete:
 # Change Log
 
 **Author**: Peyton Cysewski
-**Version**: 1.2.1 (increment the patch/fix version number if you make more commits past your first submission)
+**Version**: 1.3.1
 
 ## Overview
 <!-- Provide a high level overview of what this application is and why you are building it, beyond the fact that it's an assignment for this class. (i.e. What's your problem domain?) -->
@@ -123,14 +117,15 @@ Actual time needed to complete:
 ## Change Log
 
 Version 1.0.0 - 04-14-2020 11:11am - Set up initial repository including dependencies, .env file, .gitignore, license, server.js
-Version 1.0.1 - 4/14/2020 12:58pm - Added City identifier abilities using a constructor with info from data/geo.json
-Version 1.0.2 - 4/14/2020 - Added ability to search for a location and return proper information
-Version 1.0.3 - 4/14/2020 - Added ability to return proper weather location
-Version 1.0.4 - 4/14/2020 - Added an error catcher
-Version 1.1.0 - 4/15/2020 11:50am - Added location API integration and forecast API integration
-Version 1.1.1 - 4/15/2020 12:59pmm - Added Trail API inegration
-Version 1.2.0 - 4/16/2020 10:56am - Connected to a local PostgreSQL server with locations table
-Version 1.2.1 - 4/16/2020 1:02pm - Database can how cache location data for new searches and use the cache for repeated searches
+Version 1.0.1 - 04-14-2020 12:58pm - Added City identifier abilities using a constructor with info from data-geo.json
+Version 1.0.2 - 04-14-2020   N/A   - Added ability to search for a location and return proper information
+Version 1.0.3 - 04-14-2020   N/A   - Added ability to return proper weather location
+Version 1.0.4 - 04-14-2020   N/A   - Added an error catcher
+Version 1.1.0 - 04-15-2020 11:50am - Added location API integration and forecast API integration
+Version 1.1.1 - 04-15-2020 12:59pm - Added Trail API inegration
+Version 1.2.0 - 04-16-2020 10:56am - Connected to a local PostgreSQL server with locations table
+Version 1.3.0 - 04-17-2020 10:46am - Added Movies API
+Version 1.3.1 - 04-17-2020 11:47am - Added Yelp API
 
 ## Credits and Collaborations
 
@@ -138,3 +133,5 @@ Version 1.2.1 - 4/16/2020 1:02pm - Database can how cache location data for new 
 - Chance Harmon (Lab 06 - 4/14/2020)
 - Joe Pennock (Lab 07 + 08 - 4/15/2020)
 - Olga Charnysh (Lab 07 + 08 - 4/15/2020)
+- Joseph Zabaleta (Lab 09 4/17/2020)
+- Paul Depew (Lab 09 4/17/2020)

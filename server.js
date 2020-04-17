@@ -100,7 +100,6 @@ app.get('/movies', (request, response) => {
   superagent
   .get(url)
   .then(movieResonse => {
-    console.log(movieResonse.body.results);
     let data = movieResonse.body.results;
     response.status(200).send(data.map(movie => new Movie(movie)))})
   .catch(err => {handleError(err, request, response)});
@@ -108,21 +107,22 @@ app.get('/movies', (request, response) => {
 });
 
 // Getting Restaurant Information
-// app.get('/yelp', (request, response) => {
+app.get('/yelp', (request, response) => {
 
-//   const { latitude, longitude } = request.query;
-//   const key = process.env.YELP__API__KEY;
-//   const url = `https://api.yelp.com/v3/businesses/search?lat=${latitude}&lon=${longitude}&key=${key}&term=restaurants`
+  const { latitude, longitude } = request.query;
+  const key = process.env.YELP__API__KEY;
+  const url = `https://api.yelp.com/v3/businesses/search?latitude=${latitude}&longitude=${longitude}&term=restaurants`
 
-//   superagent
-//   .get(url)
-//   .then(movieResonse => {
-//     // console.log(movieResonse.body);
-//     let data = movieResonse.body.movies;
-//     response.status(200).send(data.map(movie => new Movie(movie)))})
-//   .catch(err => {handleError(err, request, response)});
+  superagent
+  .get(url)
+  .set({ 'Authorization': 'Bearer ' + key})
+  .then(movieResonse => {
+    console.log(movieResonse.body.businesses);
+    let data = movieResonse.body.businesses;
+    response.status(200).send(data.map(restaurant => new Restaurant(restaurant)))})
+  .catch(err => {handleError(err, request, response)});
 
-// });
+});
 
 // Constructor Functions 
 function City(city, locData) {
@@ -160,13 +160,13 @@ function Movie(movie) {
   this.released_on = movie.release_date;
 }
 
-// function Restuarant(restaurant) {
-//   this.name = ;
-//   this.image_url = ;
-//   this.price = ;
-//   this.rating = ;
-//   this.url = ;
-// }
+function Restaurant(restaurant) {
+  this.name = restaurant.name;
+  this.image_url = restaurant.image_url;
+  this.price = restaurant.price;
+  this.rating = restaurant.rating;
+  this.url = restaurant.url;
+}
 
 // Extra Functions
 function split_conditionDate(str) {
